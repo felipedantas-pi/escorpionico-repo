@@ -1,8 +1,16 @@
+# Python
 __pycache__/
-*.py[cod]
-.env
-.venv
-.DS_Store
-*.log
+*.pyc
+*.pyo
+*.pyd
 .pytest_cache/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Environment
+.venv/
+.env
 poetry.lock
+
+
