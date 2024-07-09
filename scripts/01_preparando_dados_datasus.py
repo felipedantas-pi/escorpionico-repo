@@ -4,6 +4,7 @@ import pandas as pd
 
 # Lendo arquivo CSV baixodo do site TABNET do DATASUS
 # arquivo CSV possui algumas informações que não precisaremos.
+# ONDE BAIXAR: http://tabnet.datasus.gov.br/cgi/tabcgi.exe?sinannet/cnv/animaisbr.def
 dataset = pd.read_csv("../data/sinan_datasus/sinannet_cnv_animaisbr112720189_70_211_56.csv", 
     sep=';', encoding='latin-1', skiprows=4, engine='python', skipfooter=23, na_values=['-'])
 
