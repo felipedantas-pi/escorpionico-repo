@@ -20,7 +20,7 @@ df.insert(
     loc=11, 
     column='ii_variacao_percentual',
     value=(
-        ((df["ii_19"] / df["ii_09"]) / df["ii_09"]) * 100).round(2)
+        ((df["ii_19"] - df["ii_09"]) / df["ii_09"]) * 100).round(2)
     )
 # Calculando percentual de área urbanizada
 df.insert(
