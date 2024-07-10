@@ -22,3 +22,6 @@ poetry.lock
 
 # geojson
 *.qmd
+
+# fontes
+fontes/

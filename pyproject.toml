@@ -20,6 +20,7 @@ mapclassify = "^2.7.0"
 requests = "^2.32.3"
 pypalettes = {git = "https://github.com/JosephBARBIERDARNAL/pypalettes.git"}
 highlight-text = "^0.2"
+pysal = "^24.1"
 
 
 [build-system]
