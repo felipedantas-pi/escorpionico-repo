@@ -13,4 +13,12 @@ __pycache__/
 .env
 poetry.lock
 
+# shapefile
+*.cpg
+*.dbf
+*.prj
+*.shx
+*.shp
 
+# geojson
+*.qmd

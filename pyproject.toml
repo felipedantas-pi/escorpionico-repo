@@ -18,6 +18,8 @@ lonboard = "^0.9.3"
 openpyxl = "^3.1.5"
 mapclassify = "^2.7.0"
 requests = "^2.32.3"
+pypalettes = {git = "https://github.com/JosephBARBIERDARNAL/pypalettes.git"}
+highlight-text = "^0.2"
 
 
 [build-system]
