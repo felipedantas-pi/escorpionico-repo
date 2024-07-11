@@ -25,3 +25,11 @@ poetry.lock
 
 # fontes
 fontes/
+
+# comprimidos
+*.zip
+
+# imagens
+data/resultados/
+*.png
+*.jpg

@@ -30,22 +30,40 @@ df.insert(
     )
 
 ## Obter algumas estatísticas descritivas
-# 3 Municípios com mais casos notificados
+# 3 Municípios com maiores e menores número absolutos de casos notificados
 df.sort_values(by='nnae_2009', axis=0, ascending=False).head(3)
+df.sort_values(by='nnae_2009', axis=0, ascending=True).head(3)
 df.sort_values(by='nnae_2019', axis=0, ascending=False).head(3)
+df.sort_values(by='nnae_2019', axis=0, ascending=True).head(3)
 
-# 3 Municípios com maiores índices de indicência
+# 3 Municípios com maiores e menores índices de indicência
 df.sort_values(by='ii_09', axis=0, ascending=False).head(3)
+df.sort_values(by='ii_09', axis=0, ascending=True).head(3)
 df.sort_values(by='ii_19', axis=0, ascending=False).head(3)
+df.sort_values(by='ii_19', axis=0, ascending=True).head(3)
 
 # 3 Municípios com menores índices de indicência
-df.sort_values(by='ii_09', axis=0, ascending=True).head(3)
-df.sort_values(by='ii_19', axis=0, ascending=True).head(3)
+df.sort_values(
+    by='ii_variacao_percentual', 
+    axis=0, ascending=False).head(3)
+df.sort_values(
+    by='ii_variacao_percentual', 
+    axis=0, ascending=True).head(3)
+
+#
+df.sort_values(
+    by='urbanizacao_percentual', 
+    axis=0, ascending=False).head(3)
+df.sort_values(
+    by='urbanizacao_percentual', 
+    axis=0, ascending=True).head(3)
 
 # Valores médios
 df.columns.to_list()
 df['ii_09'].mean().round(2) #média 2009
 df['ii_19'].mean().round(2) # média 2019
+df['ii_variacao_percentual'].mean().round(2)
+df['urbanizacao_percentual'].mean().round(2)
 
 # Valores médios por estado
 df_media = df.groupby('coduf')[['ii_09','ii_19','ii_variacao_percentual']].mean().reset_index()
@@ -53,6 +71,8 @@ df_media = df.groupby('coduf')[['ii_09','ii_19','ii_variacao_percentual']].mean(
 
 df['ii_09'].describe()
 df['ii_19'].describe()
+df['ii_variacao_percentual'].describe()
+df['urbanizacao_percentual'].describe()
 
 
 # Salvando dataframe

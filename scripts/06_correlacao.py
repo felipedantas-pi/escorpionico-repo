@@ -29,8 +29,9 @@ rice_bins = int(np.ceil(2 * n**(1/3))) # 2ª regra
 # Criando o gráfico Histograma
 hist_plot = sns.histplot(data=df, x='ii_variacao_percentual', kde=True, bins=sturges_bins) #opção 2
 # Renomear os rótulos dos eixos do histograma
-hist_plot.set_xlabel('Percentage Change')
+hist_plot.set_xlabel('% Change', )
 hist_plot.set_ylabel('Density')
+hist_plot.set_title("Histogram of the Percentage of Variation", pad= 10)
 
 
 #########################################
@@ -80,7 +81,36 @@ rho09, pval09  = spearmanr_pval(df_2009)
 rho19, pval19  = spearmanr_pval(df_2019)
 rho_df, pval_df  = spearmanr_pval(df_matriz)
 
-#--- Criando o mapa de calor ---#
+
+###############################################################
+# GRAFICO DE DISPERSÃO + HISTOGRA MARGINAL + CORRELAÇÃO
+###############################################################
+
+# Gráfico de dispersão + histograma marginal para dados do ii_2009
+disp_hist_2009 = sns.jointplot(data=df, x='urbanizacao_percentual', y='ii_09', kind="scatter", height=5, ratio=3 )
+disp_hist_2009.set_axis_labels('Urbanized area (%)','Incidence in 2009 per 10000 inhabitants')
+# Adicionar anotação da correlação
+plt.annotate(f'Rs: {rho09:.3f}\np-value: {pval09:.3f}', xy=(1, 0.95),
+             xycoords='axes fraction', fontsize=7, ha='right', va='top',
+             bbox=dict(boxstyle="round,pad=0.3", edgecolor='black', facecolor='white'))
+plt.title('Spearman correlation 2009', y=1.4)
+#plt.show()
+
+
+# Gráfico de dispersão + histograma marginal para dados do ii_2019
+disp_hist_2019 = sns.jointplot(data=df, x='urbanizacao_percentual', y='ii_19', kind="scatter", height=5, ratio=3 )
+disp_hist_2019.set_axis_labels('Urbanized area (%)','Incidence in 2019 per 10000 inhabitants')
+# Adicionar anotação da correlação
+plt.annotate(f'Rs: {rho19:.3f}\np-value: {pval19:.3f}', xy=(1, 0.95),
+             xycoords='axes fraction', fontsize=7, ha='right', va='top',
+             bbox=dict(boxstyle="round,pad=0.3", edgecolor='black', facecolor='white'))
+plt.title('Spearman correlation 2019', y=1.4)
+#plt.show()
+
+############################################################
+# Mapa de calor da matriz de correlação
+############################################################
+
 custom_labels = ['I.I. 2009','I.I.2019','Urbanized Area (%)']
 
 plt.figure(figsize=(10, 10))
@@ -105,30 +135,3 @@ plt.yticks(ticks=range(len(custom_labels)), labels=custom_labels)
 # Ajusta automaticamente a disposição dos elementos na figura
 plt.tight_layout()
 plt.show()
-
-
-
-###############################################################
-# GRAFICO DE DISPERSÃO + HISTOGRA MARGINAL + CORRELAÇÃO
-###############################################################
-
-# Gráfico de dispersão + histograma marginal para dados do ii_2009
-disp_hist_2009 = sns.jointplot(data=df, x='ii_09', y='urbanizacao_percentual', kind="scatter", height=5, ratio=3 )
-disp_hist_2009.set_axis_labels('Incidence Index', 'Percentage Urbanization')
-# Adicionar anotação da correlação
-plt.annotate(f'Rs: {rho09:.3f}\np-value: {pval09:.3f}', xy=(1, 0.95),
-             xycoords='axes fraction', fontsize=7, ha='right', va='top',
-             bbox=dict(boxstyle="round,pad=0.3", edgecolor='black', facecolor='white'))
-#plt.suptitle(' Índice de Incidência x Urbanização Percentual', y=1.02)
-#plt.show()
-
-
-# Gráfico de dispersão + histograma marginal para dados do ii_2009
-disp_hist_2019 = sns.jointplot(data=df, x='ii_19', y='urbanizacao_percentual', kind="scatter", height=5, ratio=3 )
-disp_hist_2019.set_axis_labels('Incidence Index', 'Percentage Urbanization')
-# Adicionar anotação da correlação
-plt.annotate(f'Rs: {rho19:.3f}\np-value: {pval19:.3f}', xy=(1, 0.95),
-             xycoords='axes fraction', fontsize=7, ha='right', va='top',
-             bbox=dict(boxstyle="round,pad=0.3", edgecolor='black', facecolor='white'))
-#plt.suptitle(' Índice de Incidência x Urbanização Percentual', y=1.02)
-#plt.show()
