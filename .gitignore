@@ -19,6 +19,8 @@ poetry.lock
 *.prj
 *.shx
 *.shp
+*.sbn
+*.sbx
 
 # geojson
 *.qmd
@@ -28,8 +30,3 @@ fontes/
 
 # comprimidos
 *.zip
-
-# imagens
-data/resultados/
-*.png
-*.jpg
