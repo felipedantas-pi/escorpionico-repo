@@ -1,10 +1,13 @@
 import pandas as pd
 
-##### -------------------- DATASETS: POPULAÇÃO MUNICIPAL ---------- #####
+######################################################
+#####  DATASETS: POPULAÇÃO MUNICIPAL ---------- #####
+#######################################################
 
 # Definindo os nomes das colunas
 cols_sidraPop = ['codmunicipio','nm_municipio','pop2009','pop2019']
 # importando tabela bruta de dados de população por municípios dos anos de 2009 e 2019
+# Fonte: https://sidra.ibge.gov.br/Tabela/6579
 dfpop = pd.read_excel("../data/ibge/populacao/TabelaSIDRA6579.xlsx",
                       names=cols_sidraPop, skiprows=3, skipfooter=1, na_values=['...'])
 
@@ -32,7 +35,9 @@ dfpop_cleaned['pop2009'] = dfpop_cleaned['pop2009'].astype('Int64')
 # Exportando dataframe para CSV
 #dfpop_cleaned.to_csv("../data/ibge/populacao/dataset_populacao.csv", encoding='utf-8', index=False)
 
-##### -------------------- DATASETS: ÁREA URBANIZADA E ÁREA TERRITORIAL ---------- #####
+################################################
+# DATASETS: ÁREA TERRITORIAL 
+##################################################
 
 # Definindo URL do dataset IBGE contendo a área territorial por município em 2019
 url = "https://geoftp.ibge.gov.br/organizacao_do_territorio/estrutura_territorial/areas_territoriais/2019/AR_BR_RG_UF_RGINT_RGIM_MES_MIC_MUN_2019.xls"
@@ -45,6 +50,10 @@ dfarea.insert(0,"codmun", value=dfarea["CD_GCMUN"].astype(str).str.slice(0,6))
 
 # Deletando colunas desnecessárias
 dfarea.drop(labels=["ID","CD_GCUF","NM_UF_SIGLA","CD_GCMUN"], axis=1, inplace=True)
+
+####################################################
+# DATASETS: ÁREA URBANIZADA
+####################################################
 
 # Definindo nomes de colunas para o dataset de Áreas Urbanizadas por municípios em 2019
 nomes_cols = [
