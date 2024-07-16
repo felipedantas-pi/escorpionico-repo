@@ -1,11 +1,11 @@
 import pandas as pd
-import seaborn as sns
 
 # Lendo dataset amostra
-df = pd.read_csv('../data/dataset_amostra.csv')
+df = pd.read_csv('../data/sinan_datasus/dataset_nnae.csv')
 
-df['codmun'] = df['codmun'].astype(str)
-df['coduf'] = df['coduf'].astype(str)
+df['cod_mun'] = df['cod_mun'].astype(str)
+
+df.dtypes
 
 # Precisamos calcular:
 # - Indice de Incidência 2009
@@ -24,7 +24,7 @@ df.insert(
     )
 # Calculando percentual de área urbanizada
 df.insert(
-    loc=14, 
+    loc=13, 
     column='urbanizacao_percentual', 
     value=((df["areakm2_urbanizada"] / df["areakm2_municipio"]) * 100).round(4)
     )
@@ -37,10 +37,10 @@ df.sort_values(by='nnae_2019', axis=0, ascending=False).head(3)
 df.sort_values(by='nnae_2019', axis=0, ascending=True).head(3)
 
 # 3 Municípios com maiores e menores índices de indicência
-df.sort_values(by='ii_09', axis=0, ascending=False).head(3)
-df.sort_values(by='ii_09', axis=0, ascending=True).head(3)
-df.sort_values(by='ii_19', axis=0, ascending=False).head(3)
-df.sort_values(by='ii_19', axis=0, ascending=True).head(3)
+df.sort_values(by='ii_2009', axis=0, ascending=False).head(3)
+df.sort_values(by='ii_2009', axis=0, ascending=True).head(3)
+df.sort_values(by='ii_2019', axis=0, ascending=False).head(3)
+df.sort_values(by='ii_2019', axis=0, ascending=True).head(3)
 
 # 3 Municípios com menores índices de indicência
 df.sort_values(
@@ -66,7 +66,7 @@ df['ii_variacao_percentual'].mean().round(2)
 df['urbanizacao_percentual'].mean().round(2)
 
 # Valores médios por estado
-df_media = df.groupby('coduf')[['ii_09','ii_19','ii_variacao_percentual']].mean().reset_index()
+df_media = df.groupby('sigla_uf')[['ii_2009','ii_2019','ii_variacao']].mean().reset_index()
 
 
 df['ii_09'].describe()

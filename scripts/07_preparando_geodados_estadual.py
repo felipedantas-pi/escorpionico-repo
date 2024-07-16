@@ -49,18 +49,18 @@ brasil_uf = gpd.read_file(caminho_arquivo_vetorial)
 ii = pd.read_csv('../data/dataset_amostra_stats_media_uf.csv')
 
 brasil_uf['CD_UF'] = brasil_uf['CD_UF'].astype(str)
-ii['coduf'] = ii['coduf'].astype(str)
+ii['sigla_uf'] = ii['sigla_uf'].astype(str)
 
-gdf = brasil_uf.merge(ii, left_on='CD_UF', right_on='coduf')
+gdf = brasil_uf.merge(ii, left_on='SIGLA_UF', right_on='sigla_uf')
 
 # Seelcionando colunas desejadas
 gdf = gdf[['CD_UF',
  'NM_UF',
  'SIGLA_UF',
  'NM_REGIAO',
- 'ii_09',
- 'ii_19',
- 'ii_variacao_percentual',
+ 'ii_2009',
+ 'ii_2019',
+ 'ii_variacao',
  'geometry']]
 
 gdf.to_file('../data/dataset_final.geojson', driver='GeoJSON')

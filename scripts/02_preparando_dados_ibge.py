@@ -99,4 +99,6 @@ col_mapping = dict(zip(cols_old, cols_new))
 # Renomeando as colunas no dataframe
 df_all = df_pop_area_urb.rename(columns=col_mapping).reset_index(drop=True)
 
+df_all.sort_values('pop2019')
+
 df_all.to_csv("../data/ibge/dataset_pop_area_urb.csv", encoding="utf-8", index=False)

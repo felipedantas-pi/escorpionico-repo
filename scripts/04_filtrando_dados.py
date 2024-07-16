@@ -3,10 +3,12 @@ import pandas as pd
 df = pd.read_csv('../data/dataset_ibge_datasus.csv')
 
 # ordenandos colunas
-df = df[['codmun','nm_municipio','coduf','nm_uf','sigla_uf','pop2009','pop2019','nnae_2009','nnae_2019','areakm2_municipio','areakm2_urbanizada']]
+df = df[['codmun','nm_municipio','nm_uf','sigla_uf','pop2009','pop2019','nnae_2009','nnae_2019','areakm2_municipio','areakm2_urbanizada']]
 
 df['codmun'] = df['codmun'].astype(str)
-df['coduf'] = df['coduf'].astype(str)
+df['sigla_uf'] = df['sigla_uf'].astype(str)
+
+df.sort_values('pop2019')
 
 # Selecionando os municípios em 2019 >= 60000 habitantes
 pop = 60000
@@ -17,4 +19,5 @@ df_final = df_pop19_60k.sort_values('pop2019', ascending=True).reset_index(drop=
 
 
 df_final.to_csv("../data/dataset_amostra.csv", encoding='utf-8', index=False)
+df.to_csv("../data/dataset_amostra.csv", encoding='utf-8', index=False)
 

@@ -89,7 +89,7 @@ df_mun = br_municipios.rename(columns=col_mapping).reset_index(drop=True)
     
 # Corrigindo o tipo de dados INT64 para OBJECT da coluna codmun de ambos datafrane
 df_mun['cod6_mun'] = df_mun['cod6_mun'].astype(str)
-stats['codmun'] = stats['codmun'].astype(str)
+stats['cod_mun'] = stats['cod_mun'].astype(str)
 
 # 
 df_mun.insert(0,"cod6_mun", value=df_mun["cod_mun"].astype(str).str.slice(0,6))
@@ -100,18 +100,20 @@ stats = pd.read_csv('../data/dataset_amostra_stats.csv')
 
 
 # Mescla os dataframe e preenche com NaN aquelas lingações inexistente
-municipios_estudados = df_mun.merge(stats, left_on='cod6_mun', right_on='codmun' )
+municipios_estudados = df_mun.merge(stats, left_on='cod6_mun', right_on='cod_mun')
+
+municipios_estudados.columns
 
 # Verificando a existência de valores nulos
 municipios_estudados[municipios_estudados.isna().any(axis=1)] #não há
 
 # Seelcionando colunas desejadas
 gdf = municipios_estudados[[
-    'cod6_mun', 'cod_mun', 'nm_mun', 
-    'coduf', 'sigla_uf_y', 'nm_uf', 
+    'cod6_mun', 'nm_mun', 
+    'sigla_uf_y', 
     'pop2009', 'pop2019', 'nnae_2009', 'nnae_2019',
-    'areakm2_municipio', 'areakm2_urbanizada',
-    'ii_09', 'ii_19', 'ii_variacao_percentual', 'urbanizacao_percentual',
+    'areakm2_territorial', 'areakm2_urbanizada',
+    'ii_2009', 'ii_2019', 'ii_variacao', 'percentual_urbanizacao',
     'geometry'
 ]]
 

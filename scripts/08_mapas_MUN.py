@@ -14,14 +14,15 @@ from matplotlib.font_manager import FontProperties
 #from matplotlib.patches import FancyArrowPatch
 #from highlight_text import fig_text, ax_text
 
-br_uf = gpd.read_file('../data/ibge/malha_territorial/BR_UF_2019.shp')
-br_mun = gpd.read_file('../data/ibge/malha_territorial/BR_Municipios_2019.shp')
+#br_uf = gpd.read_file('../data/ibge/malha_territorial/BR_UF_2019.shp')
+br_uf = gpd.read_file("../data/dataset_final.geojson")
+#br_mun = gpd.read_file('../data/ibge/malha_territorial/BR_Municipios_2019.shp')
 gdf = gpd.read_file("../data/dataset_municipio_stats.geojson")
 
-gdf.head(3)
-gdf.shape
-gdf.dtypes
-gdf.plot()
+br_uf.head(3)
+br_uf.shape
+br_uf.dtypes
+br_uf.plot()
 
 # Load the fonts
 personal_path = '../fontes/' 
@@ -69,8 +70,8 @@ background_color = 'white'
 text_color = 'black'
 
 # Classificação Jenks
-nb5_2009 = mapclassify.NaturalBreaks(gdf['ii_09'], k=5)
-nb5_2019 = mapclassify.NaturalBreaks(gdf['ii_19'], k=5)
+nb5_2009 = mapclassify.NaturalBreaks(gdf['ii_2009'], k=5)
+nb5_2019 = mapclassify.NaturalBreaks(gdf['ii_2019'], k=5)
 
 # Mapa Coroplético
 mapping_2009 = dict([(i, s) for i, s in enumerate(nb5_2009.get_legend_classes())])
@@ -164,7 +165,7 @@ plt.show()
 #######################################
 
 # Classificação Jenks
-nb5_iivp = mapclassify.PrettyBreaks(gdf['ii_variacao_percentual'], k=10)
+nb5_iivp = mapclassify.PrettyBreaks(gdf['ii_variacao'], k=10)
 
 # Mapeando classes da legenda
 mapping_v = dict([(i, s) for i, s in enumerate(nb5_iivp.get_legend_classes())])
@@ -222,5 +223,113 @@ ax.set_axis_off()
 legend = ax.get_legend()
 replace_legend_items(legend, mapping_v)
     
+# Mostrar o mapa
+plt.show()
+
+
+
+
+
+#########################################################
+# POR ESTADO II2009 E 2019
+##########################################################
+
+
+# Carrega colormap e outras cores
+cmap_iis = load_cmap('gley', type='continuous', reverse=False)
+background_color = 'white'
+text_color = 'black'
+
+# Classificação Jenks
+nb5_uf_2009 = mapclassify.NaturalBreaks(br_uf['ii_2009'], k=5)
+nb5_uf_2009 = mapclassify.NaturalBreaks(br_uf['ii_2019'], k=5)
+
+# Mapa Coroplético
+mapping_uf_2009 = dict([(i, s) for i, s in enumerate(nb5_uf_2009.get_legend_classes())])
+mapping_uf_2019 = dict([(i, s) for i, s in enumerate(nb5_uf_2009.get_legend_classes())])
+
+# initialize the figure
+fig, axes = plt.subplots(1, 2, figsize=(16, 9), dpi=600)
+fig.suptitle('Geographical distribution of scorpion stings in Brazil 2009 and 2019',
+             fontproperties=other_bold_font,
+             color=text_color,
+             y=0.85
+    )
+fig.set_facecolor(background_color)
+
+for ax in axes:
+    ax.set_facecolor(background_color)
+
+# Criando o primeiro mapa 2009
+br_uf.assign(uf_ii09_nb=nb5_uf_2009.yb).plot(
+    ax=axes[0],
+    column='uf_ii09_nb',
+    cmap=cmap_iis,
+    edgecolor='black',
+    categorical=True,
+    linewidth=0.5,
+    legend=True,
+    legend_kwds={
+        "fmt": "{:.2f}",
+        "loc": "lower left",
+        "bbox_to_anchor": (0., 0., 0.5, 0.5),
+        "prop": font,
+    }
+)
+
+axes[0].set_xlim(-75, -32)
+axes[0].set_ylim(-34, 6)
+axes[0].set_axis_off()
+axes[0].set_title('2009', fontproperties=other_medium_font, color=text_color)
+
+# Adicionar rótulos aos dados geográficos
+for idx, row in br_uf.iterrows():
+    # Calcula o centroide do polígono
+    centroid = row['geometry'].centroid
+    # Anotar o rótulo no centroide
+    axes[0].annotate(text=row['SIGLA_UF'], xy=(centroid.x, centroid.y),
+                horizontalalignment='center', fontsize=8, color='black')
+
+# Ajuste a legenda do segundo gráfico
+legend1 = axes[0].get_legend()
+legend1.get_frame().set_visible(False)
+replace_legend_items(legend1, mapping_uf_2009)
+
+# Criando segundo gráfico (exemplo com dados diferentes)
+br_uf.assign(uf_ii19_nb=nb5_uf_2019.yb).plot(
+    ax=axes[1],
+    column='uf_ii19_nb',
+    cmap=cmap_iis,
+    edgecolor='black',
+    categorical=True,
+    linewidth=0.5,
+    legend=True,
+    legend_kwds={
+        "fmt": "{:.2f}",
+        "loc": "lower left",
+        "bbox_to_anchor": (0., 0., 0.5, 0.5),
+        "prop": font,
+        "frameon":False
+    }
+)
+
+axes[1].set_xlim(-75, -32)
+axes[1].set_ylim(-34, 6)
+axes[1].set_axis_off()
+axes[1].set_title('2019', fontproperties=other_medium_font, color=text_color)
+
+# Adicionar rótulos aos dados geográficos
+for idx, row in br_uf.iterrows():
+    # Calcula o centroide do polígono
+    centroid = row['geometry'].centroid
+    # Anotar o rótulo no centroide
+    axes[1].annotate(text=row['SIGLA_UF'], xy=(centroid.x, centroid.y),
+                horizontalalignment='center', fontsize=8, color='black')
+
+# Ajuste a legenda do segundo gráfico
+legend2 = axes[1].get_legend()
+legend2.get_frame().set_visible(False)
+replace_legend_items(legend2, mapping_uf_2019)
+
 # Mostrar o mapa
 plt.show()

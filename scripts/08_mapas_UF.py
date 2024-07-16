@@ -31,7 +31,7 @@ gdf["ii_19"].max()
 #######################################
 
 # Classificação Jenks
-nb5_2009 = mapclassify.NaturalBreaks(gdf['ii_09'], k=5)
+nb5_2009 = mapclassify.NaturalBreaks(gdf['ii_2009'], k=5)
 
 # Mapa Coroplético
 mapping = dict([(i, s) for i, s in enumerate(nb5_2009.get_legend_classes())])
